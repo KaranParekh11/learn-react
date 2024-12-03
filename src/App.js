@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import GreetingComponent from "./GreetingComponent";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [count, setCount] = useState(0);
+
+    // Functions to update the state
+    const increaseCount = () => setCount(count + 1);
+    const decreaseCount = () => {
+        if (count > 0) setCount(count - 1);
+    };
+    const resetCount = () => setCount(0);
+
+    // Array of names
+    const names = ["Karan", "John", "Jane", "Alice"];
+
+    return (
+        <div>
+            {/* Map over the array of names */}
+            {names.map((name, index) => (
+                <GreetingComponent
+                    key={index} // Key is important for unique identification
+                    firstname={name}
+                    count={count}
+                    increase={increaseCount}
+                    decrease={decreaseCount}
+                    reset={resetCount}
+                />
+            ))}
+        </div>
+    );
 }
 
 export default App;
