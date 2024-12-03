@@ -1,23 +1,35 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 function GreetingComponent(props) {
     const [count, setCount] = useState(0);
 
-    // Functions to update the state
-    const increaseCount = () => setCount(count + 1);
-    const decreaseCount = () => {
-        if (count > 0) setCount(count - 1);
+    // Function to increase the local and global counters
+    const increaseCount = () => {
+        setCount(count + 1); // Update local count
+        props.updateGlobal(1); // Update global count
     };
-    const resetCount = () => setCount(0);
+
+    // Function to decrease the local and global counters
+    const decreaseCount = () => {
+        if (count > 0) {
+            setCount(count - 1); // Update local count
+            props.updateGlobal(-1); // Update global count
+        }
+    };
+
+    // Function to reset the local counter
+    const resetCount = () => {
+        props.updateGlobal(-count); // Subtract the current local count from global count
+        setCount(0); // Reset local count
+    };
+
     return (
         <div>
             <h1>Hello, {props.firstname}!</h1>
-            <p>{props.firstname}'s Count: {count}</p>
+            <p>Local Count: {count}</p>
             <button onClick={increaseCount}>Increase Count</button>
             <button onClick={decreaseCount}>Decrease Count</button>
             <button onClick={resetCount}>Reset Count</button>
-            {count > 5 && <p style={{ color: "green" }}>Count is High!</p>}
-            {count <= 2 && <p style={{ color: "red" }}>Count is Low!</p>}
         </div>
     );
 }
