@@ -1,19 +1,16 @@
 import React from "react";
+import { CounterProvider } from "./CounterContext";
 import GreetingComponent from "./GreetingComponent";
-import { GlobalProvider } from "./GlobalContext";
 
 function App() {
-    const names = ["Karan", "John", "Jane", "Alice"];
-
     return (
-        <GlobalProvider>
+        <CounterProvider>
             <div>
-                {/* Map over the array of names */}
-                {names.map((name, index) => (
-                    <GreetingComponent key={index} firstname={name} />
-                ))}
+                <GreetingComponent firstname="Karan" />
+                <GreetingComponent firstname="John" />
+                <GreetingComponent firstname="Alice" />
             </div>
-        </GlobalProvider>
+        </CounterProvider>
     );
 }
 

@@ -1,18 +1,19 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "./GlobalContext";
+import { CounterContext } from "./CounterContext";
 
-function GreetingComponent(props) {
-    // Access global values and functions from the context
-    const { globalCount, increaseGlobalCount, decreaseGlobalCount, resetGlobalCount } =
-        useContext(GlobalContext);
+function GreetingComponent({ firstname }) {
+    // Consume the context
+    const { counts, increase, decrease, reset } = useContext(CounterContext);
 
     return (
         <div>
-            <h1>Hello, {props.firstname}!</h1>
-            <p>Global Count: {globalCount}</p>
-            <button onClick={increaseGlobalCount}>Increase Global Count</button>
-            <button onClick={decreaseGlobalCount}>Decrease Global Count</button>
-            <button onClick={resetGlobalCount}>Reset Global Count</button>
+            <h1>Hello, {firstname}!</h1>
+            <p>Counter: {counts[firstname] || 0}</p>
+            <button onClick={() => increase(firstname)}>Increase Count</button>
+            <button onClick={() => decrease(firstname)}>Decrease Count</button>
+            <button onClick={() => reset(firstname)}>Reset Count</button>
+            {counts[firstname] > 5 && <p style={{ color: "green" }}>Count is High!</p>}
+            {counts[firstname] <= 2 && <p style={{ color: "red" }}>Count is Low!</p>}
         </div>
     );
 }
