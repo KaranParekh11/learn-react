@@ -12,7 +12,7 @@ function GreetingComponent(props) {
     return (
         <div>
             <h1>Hello, {props.firstname}!</h1>
-            <p>Shared Count: {count}</p>
+            <p>{props.firstname}'s Count: {count}</p>
             <button onClick={increaseCount}>Increase Count</button>
             <button onClick={decreaseCount}>Decrease Count</button>
             <button onClick={resetCount}>Reset Count</button>
