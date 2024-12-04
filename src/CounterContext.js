@@ -1,12 +1,24 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
-// Create a context
+// Create the context
 const CounterContext = createContext();
 
-// Context provider component
-export const CounterProvider = ({ children }) => {
-    const [count, setCount] = useState(0);
+// Helper function to fetch the initial value from local storage
+const getInitialCount = () => {
+    const storedCount = localStorage.getItem("counter");
+    return storedCount ? parseInt(storedCount, 10) : 0; // Default to 0 if no value is stored
+};
 
+// Provider component
+export const CounterProvider = ({ children }) => {
+    const [count, setCount] = useState(getInitialCount);
+
+    // Sync state with local storage whenever count changes
+    useEffect(() => {
+        localStorage.setItem("counter", count);
+    }, [count]);
+
+    // Counter manipulation functions
     const increaseCount = () => setCount(count + 1);
     const decreaseCount = () => {
         if (count > 0) setCount(count - 1);
