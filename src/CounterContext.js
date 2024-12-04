@@ -1,37 +1,30 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 
-// Create the context
-export const CounterContext = createContext();
+// Create a context
+const CounterContext = createContext();
 
-// Create a provider component
+// Context provider component
 export const CounterProvider = ({ children }) => {
-    // Use an object to store the count for each user
-    const [counts, setCounts] = useState({});
+    const [count, setCount] = useState(0);
 
-    const increase = (name) => {
-        setCounts((prevCounts) => ({
-            ...prevCounts,
-            [name]: (prevCounts[name] || 0) + 1,
-        }));
+    const increaseCount = () => setCount(count + 1);
+    const decreaseCount = () => {
+        if (count > 0) setCount(count - 1);
     };
-
-    const decrease = (name) => {
-        setCounts((prevCounts) => ({
-            ...prevCounts,
-            [name]: (prevCounts[name] > 0 ? prevCounts[name] - 1 : 0),
-        }));
-    };
-
-    const reset = (name) => {
-        setCounts((prevCounts) => ({
-            ...prevCounts,
-            [name]: 0,
-        }));
-    };
+    const resetCount = () => setCount(0);
 
     return (
-        <CounterContext.Provider value={{ counts, increase, decrease, reset }}>
+        <CounterContext.Provider value={{ count, increaseCount, decreaseCount, resetCount }}>
             {children}
         </CounterContext.Provider>
     );
+};
+
+// Custom hook for consuming the context
+export const useCounter = () => {
+    const context = useContext(CounterContext);
+    if (!context) {
+        throw new Error("useCounter must be used within a CounterProvider");
+    }
+    return context;
 };

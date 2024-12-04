@@ -1,19 +1,18 @@
-import React, { useContext } from "react";
-import { CounterContext } from "./CounterContext";
+import React from "react";
+import { useCounter } from "./CounterContext";
 
-function GreetingComponent({ firstname }) {
-    // Consume the context
-    const { counts, increase, decrease, reset } = useContext(CounterContext);
+function GreetingComponent(props) {
+    const { count, increaseCount, decreaseCount, resetCount } = useCounter();
 
     return (
         <div>
-            <h1>Hello, {firstname}!</h1>
-            <p>Counter: {counts[firstname] || 0}</p>
-            <button onClick={() => increase(firstname)}>Increase Count</button>
-            <button onClick={() => decrease(firstname)}>Decrease Count</button>
-            <button onClick={() => reset(firstname)}>Reset Count</button>
-            {counts[firstname] > 5 && <p style={{ color: "green" }}>Count is High!</p>}
-            {counts[firstname] <= 2 && <p style={{ color: "red" }}>Count is Low!</p>}
+            <h1>Hello, {props.firstname}!</h1>
+            <p>Counter: {count}</p>
+            <button onClick={() => increaseCount()}>Increase Count</button>
+            <button onClick={() => decreaseCount()}>Decrease Count</button>
+            <button onClick={() => resetCount()}>Reset Count</button>
+            {count > 5 && <p style={{ color: "green" }}>Count is High!</p>}
+            {count <= 2 && <p style={{ color: "red" }}>Count is Low!</p>}
         </div>
     );
 }
