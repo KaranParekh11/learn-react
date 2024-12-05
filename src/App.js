@@ -1,37 +1,38 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route,Link } from "react-router-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import store from "./Store";
 import GreetingComponent from "./GreetingComponent";
 import Home from "./Home";
 import About from "./About";
 import NotFound from "./NotFound";
-import {CounterProvider} from "./CounterContext";
-
-function Layout({ children }) {
-    return (
-        <div>
-            <nav>
-                <Link to="/">Home</Link> | <Link to="/about">About</Link> | <Link to="/users">Users</Link>
-            </nav>
-            <hr />
-            {children}
-        </div>
-    );
-}
 
 function App() {
     return (
-        <CounterProvider>
+        <Provider store={store}>
             <Router>
-                <Layout>
+                <div>
+                    {/* Navigation Links */}
+                    <nav>
+                        <Link to="/">Home</Link> | <Link to="/about">About</Link> | <Link to="/users">Users</Link>
+                    </nav>
+                    {/* Define Routes */}
                     <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/users" element={<GreetingComponent firstname="Karan" />} />
-                            <Route path="*" element={<NotFound />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route
+                            path="/users"
+                            element={
+                                <div>
+                                    <GreetingComponent firstname="Karan" />
+                                </div>
+                            }
+                        />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
-                </Layout>
+                </div>
             </Router>
-        </CounterProvider>
+        </Provider>
     );
 }
 
